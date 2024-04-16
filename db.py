@@ -1,3 +1,25 @@
+
+import sqlite3
+
+
+db_connect = sqlite3.connect("TeleBot.sqlite3")
+
+db_cursor = db_connect.cursor()
+
+db_cursor.execute("CREATE TABLE  IF NOT EXISTS users (id INTEGER PRIMARY Key,firstname REAL,lastname REAL)")
+
+# db_cursor.execute("INSERT INTO users  (firstname, lastname) VALUES ('Bunyod','Ergashov')")
+# db_connect.execute("""
+# CREATE TABLE  IF NOT EXISTS
+#
+#
+# """)
+db_cursor.execute("CREATE TABLE  IF NOT EXISTS product (id INTEGER PRIMARY Key,title REAL,price REAL)")
+db_cursor.execute("INSERT INTO product  (title, price) VALUES ('Akula Mers','250.000$')")
+db_cursor.execute("CREATE TABLE  IF NOT EXISTS orders (id INTEGER PRIMARY Key,product_id REAL,users_id REAL)")
+db_cursor.execute("INSERT INTO orders  (product_id,users_id)VALUES ('1','3')")
+db_connect.commit()
+db_cursor.close()
 import sqlite3
 
 db_connect = sqlite3.connect("d13.sqlite3")
