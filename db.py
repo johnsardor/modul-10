@@ -67,9 +67,12 @@ def insert_product(title, price):
     VALUES (?,?)""", (title, price))
 
 
-def insert_orders(product_id, user_id):
-    db_cursor.execute("""INSERT INTO orders (product_id, user_id)
-    VALUES (?,?)""", (product_id, user_id))
+
+async def insert_orders(product_id, user_id):
+    db_cursor.execute("""
+            INSERT INTO orders (product_id, user_id)
+            VALUES(?, ?)""", (product_id, user_id))
+    db_connect.commit()
 def read_users():
     db_cursor.execute("""
     SELECT * FROM users""")
@@ -101,8 +104,24 @@ def db_get_all_products():
     products = db_cursor.execute("""
     SELECT * FROM product""").fetchall()
     return products
+async def db_get_all_orders(user_id):
+    orders = db_cursor.execute("""
+        SELECT * FROM orders WHERE user_id=?
+    """, (user_id,)).fetchall()
+
+    products = []
+    for order in orders:
+        product = db_cursor.execute("""
+        SELECT * FROM product WHERE id=?
+        """, (order[1],)).fetchone()
+
+        products.append(product)
+
+    user = db_cursor.execute("""
+        SELECT * FROM users WHERE telegram_id=?
+    """, (user_id,)).fetchone()
+    return user, products
 
 
 db_connect.commit()
 # alter_users()
-db_connect.close()
