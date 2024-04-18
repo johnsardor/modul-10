@@ -8,9 +8,11 @@ from commands import commands
 from db import db_get_all_products, db_insert_product, insert_user, insert_orders, db_get_all_orders
 from keybords import kb, ikb, buy_ikb
 from states import ProductStatesGroup, UserRegisterStatesGroup
+from aiogram.client.session.aiohttp import AiohttpSession
 
 load_dotenv()
-Bot_token = os.getenv('BOT_TOKEN')
+session = AiohttpSession(proxy="http://proxy.Server:3128")
+Bot_token = os.getenv('BOT_TOKEN', session=session)
 bot = Bot(token=Bot_token)
 dp = Dispatcher()
 
